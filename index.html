@@ -5,6 +5,7 @@
 	<!-- <script type="text/javascript" src="index.js"></script> -->
 	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="https://d3js.org/d3-random.v2.min.js"></script>
+  <script src="https://d3js.org/d3-selection-multi.v1.js"></script>
 	</head>
 <body>
 <div id="container">
@@ -17,8 +18,25 @@
 var radius = 4;
 var width = 900;
 var height = 960;
-var svg = d3.select("#container").append("svg").attr("width",width).attr("height",height)
 
+var svg = d3.select("#container").append("svg").attr("width",width).attr("height",height)
+var textBox = svg.append("g")
+textBox.append("rect").attr("width",300).attr("height",30).attr("fill","none").attr("stroke","green")
+var infoText = textBox.append("text").attr("x",5).attr("y",20)
+
+    svg.append('defs').append('marker')
+        .attrs({'id':'arrowhead',
+            'viewBox':'-0 -5 10 10',
+            'refX':13,
+            'refY':0,
+            'orient':'auto',
+            'markerWidth':5,
+            'markerHeight':5,
+            'xoverflow':'visible'})
+        .append('svg:path')
+        .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+        .attr('fill', '#999')
+        .style('stroke','none');
 var color = "black"   
 
 // var context = canvas.getContext("2d")
@@ -35,7 +53,7 @@ var g = svg.append("g")
     .attr("class", "everything");
 
 
-d3.csv("val.csv", function(error, graph) {
+d3.csv("val_safe.csv", function(error, graph) {
   if (error) throw error;
 
   let nodes = []
@@ -69,6 +87,7 @@ d3.csv("val.csv", function(error, graph) {
 		.attr("stroke-width", 1)
 		.attr("stroke","teal")
 		.attr("id",function(d){return d.id})
+    .attr('marker-end','url(#arrowhead)')
 		.on("mouseover", handleMouseOverLink)
 		.on("mouseout", handleMouseOutLink);
 
@@ -152,19 +171,20 @@ function handleMouseOverNode(d, i) {  // Add interactivity
     d3.select(this).attr("fill", "orange");
     let name = d3.select(this).attr("id");
     // Specify where to put label of text
-    svg.append("text")
-    .attr("id","tooltipText")
-    .attr("x",d3.mouse(this)[0])
-    .attr("y",d3.mouse(this)[1])
-    .text(name);
+    // svg.append("text")
+    // .attr("id","tooltipText")
+    // .attr("x",d3.mouse(this)[0])
+    // .attr("y",d3.mouse(this)[1])
+    // .text(name);
+    infoText.text("Entity: " + name)
   }
 
 function handleMouseOutNode(d, i) {
     // Use D3 to select element, change color back to normal
 	d3.select(this).attr("fill", "black");
 
-    // Select text by id and then remove
-    d3.select("#tooltipText").remove();  // Remove text location
+    // // Select text by id and then remove
+    // d3.select("#tooltipText").remove();  // Remove text location
   }
 
 function handleMouseOverLink(d, i) {  // Add interactivity
@@ -175,11 +195,12 @@ function handleMouseOverLink(d, i) {  // Add interactivity
 	let name = d3.select(this).attr("id")
     // console.log(name)
     // Specify where to put label of text
-    svg.append("text")
-    .attr("id","tooltipText")
-    .attr("x",d3.mouse(this)[0])
-    .attr("y",d3.mouse(this)[1])
-    .text(name);
+    // svg.append("text")
+    // .attr("id","tooltipText")
+    // .attr("x",d3.mouse(this)[0])
+    // .attr("y",d3.mouse(this)[1])
+    // .text(name);
+    infoText.text("Relationship: " + name)
 
   }
 
@@ -187,8 +208,8 @@ function handleMouseOutLink(d, i) {
     // Use D3 to select element, change color back to normal
 	d3.select(this).attr("stroke", "teal").attr("stroke-width", 1);
 
-    // Select text by id and then remove
-    d3.select("#tooltipText").remove();  // Remove text location
+    // // Select text by id and then remove
+    // d3.select("#tooltipText").remove();  // Remove text location
   }
 </script>
 </html>
