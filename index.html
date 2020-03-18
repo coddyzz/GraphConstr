@@ -16,28 +16,31 @@
 	
 
 var radius = 4;
-var width = 900;
+var width = 1500;
 var height = 960;
 
 var svg = d3.select("#container").append("svg").attr("width",width).attr("height",height)
+
 var textBox = svg.append("g")
 textBox.append("rect").attr("width",300).attr("height",30).attr("fill","none").attr("stroke","green")
 var infoText = textBox.append("text").attr("x",5).attr("y",20)
-
-    svg.append('defs').append('marker')
-        .attrs({'id':'arrowhead',
-            'viewBox':'-0 -5 10 10',
-            'refX':13,
-            'refY':0,
-            'orient':'auto',
-            'markerWidth':5,
-            'markerHeight':5,
-            'xoverflow':'visible'})
-        .append('svg:path')
-        .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-        .attr('fill', '#999')
-        .style('stroke','none');
+svg.append('defs').append('marker')
+    .attrs({'id':'arrowhead',
+        'viewBox':'-0 -5 10 10',
+        'refX':13,
+        'refY':0,
+        'orient':'auto',
+        'markerWidth':5,
+        'markerHeight':5,
+        'xoverflow':'visible'})
+    .append('svg:path')
+    .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+    .attr('fill', '#999')
+    .style('stroke','none');
 var color = "black"   
+
+var SearchBox = svg.append("g")
+textBox.append("rect").attr("width",300).attr("height",30).attr("fill","none").attr("y",40).attr("stroke","green")
 
 // var context = canvas.getContext("2d")
 // var width = canvas.width;
